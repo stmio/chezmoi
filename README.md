@@ -19,8 +19,10 @@ iTerm2's settings, which it reads and writes directly. Two machines, picked on f
    (and for the Warwick usernames used in `~/.ssh/config`), writes the dotfiles, clones
    oh-my-zsh and powerlevel10k, installs everything in `~/.Brewfile`, then rustup, ghcup
    and nvm's Node. The downloaded chezmoi is temporary; the Brewfile installs the real one.
-3. Copy the Berkeley Mono fonts into `~/Library/Fonts`. They're licensed, so not in this repo.
-4. Restart iTerm2 so it loads its settings from `iterm2/`.
+3. Restart iTerm2 so it loads its settings from `iterm2/`.
+
+Berkeley Mono is licensed, so it's kept in 1Password rather than this repo. `chezmoi apply`
+installs it from the `Berkeley Mono` document in the Homelab vault whenever it's missing.
 
 ## Mac mini
 
@@ -31,8 +33,9 @@ approves requests on the mini's own screen. Instead, `~/.local/bin/homelab-ssh-a
 loads keys from a dedicated vault into a plain `ssh-agent`. It runs from `~/.zshenv`
 whenever that agent is empty, e.g. the first shell after a reboot.
 
-1. In 1Password, create a vault named `Homelab` with two SSH Key items:
-   `mini-github` and `mini-vast`.
+1. In 1Password, create a vault named `Homelab` with two SSH Key items,
+   `mini-github` and `mini-vast`, and a `Berkeley Mono` document holding a zip of the
+   font files (from the laptop: `zip -j BerkeleyMono.zip ~/Library/Fonts/BerkeleyMono*.otf`).
 2. Create a service account with read-only access to `Homelab` (Developer → Service
    Accounts). Its vault access can't be changed later, so create the vault first.
 3. On the mini, save the token (copied to the clipboard):
@@ -40,7 +43,8 @@ whenever that agent is empty, e.g. the first shell after a reboot.
    mkdir -p ~/.config/op
    (umask 077; pbpaste > ~/.config/op/homelab-service-account-token)
    ```
-4. Open a new shell and check `ssh-add -l` lists both keys.
+4. Open a new shell and check `ssh-add -l` lists both keys. Run `chezmoi apply` to
+   install Berkeley Mono.
 5. GitHub: run `gh auth login` (choose SSH, don't upload a key), then
    ```sh
    gh ssh-key add ~/.ssh/mini-github.pub --type authentication --title "Mac mini"
