@@ -1,0 +1,21 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Only these keys are managed; anything else Claude Code writes is kept */ -}}
+{{- $settings := dict -}}
+{{- if .chezmoi.stdin | trim -}}
+{{-   $settings = fromJson .chezmoi.stdin -}}
+{{- end -}}
+{{- $settings = setValueAtPath "model" "opus" $settings -}}
+{{- $settings = setValueAtPath "effortLevel" "xhigh" $settings -}}
+{{- $settings = setValueAtPath "modelSettings.claude-opus-5-5.effortLevel" "xhigh" $settings -}}
+{{- $settings = setValueAtPath "modelSettings.claude-fable-5-1.effortLevel" "high" $settings -}}
+{{- range list "claude-code-setup" "code-review" "code-simplifier" "feature-dev" "pr-review-toolkit" "rust-analyzer-lsp" "superpowers" -}}
+{{-   $settings = setValueAtPath (printf "enabledPlugins.%s@claude-plugins-official" .) true $settings -}}
+{{- end -}}
+{{- $settings = setValueAtPath "tui" "fullscreen" $settings -}}
+{{- $settings = setValueAtPath "preferredNotifChannel" "notifications_disabled" $settings -}}
+{{- $settings = setValueAtPath "remoteControlAtStartup" true $settings -}}
+{{- $settings = setValueAtPath "agentPushNotifEnabled" true $settings -}}
+{{- if eq .machine "mini" -}}
+{{-   $settings = setValueAtPath "permissions.ask" (list "Bash(git commit:*)" "Bash(git push:*)" "Bash(jj git push:*)" "Bash(ssh:*)" "Bash(scp:*)" "Bash(rsync:*)") $settings -}}
+{{- end -}}
+{{ toPrettyJson $settings -}}

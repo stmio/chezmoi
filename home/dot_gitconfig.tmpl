@@ -1,0 +1,33 @@
+# This is Git's per-user configuration file.
+
+[user]
+	name = {{ .identity.name }}
+	email = {{ .identity.email }}
+{{- if eq .machine "mini" }}
+	signingkey = {{ .chezmoi.homeDir }}/.ssh/mini-github.pub
+{{- else }}
+	signingkey = {{ .identity.signingKey }}
+{{- end }}
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[alias]
+	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+[credential "https://github.com"]
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[gpg]
+	format = ssh
+{{- if eq .machine "laptop" }}
+[gpg "ssh"]
+	program = "{{ .identity.opSshSign }}"
+{{- end }}
+[commit]
+	gpgsign = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

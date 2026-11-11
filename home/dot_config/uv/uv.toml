@@ -1,0 +1,5 @@
+# Pillow's source build runs `brew --prefix` to find libjpeg, but brew bundle's
+# PATH leaves out brew. Once vastai allows Pillow >= 12.3 (vast-cli#485), rename
+# this file to remove_uv.toml so chezmoi deletes it from each machine.
+[extra-build-variables]
+pillow = { PATH = "/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin" }

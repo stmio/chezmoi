@@ -1,0 +1,46 @@
+Host *
+{{- if eq .machine "laptop" }}
+	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{- else }}
+	IdentityAgent ~/.ssh/agent.sock
+{{- end }}
+{{- if eq .machine "mini" }}
+
+Host github.com
+	IdentityFile ~/.ssh/mini-github.pub
+	IdentitiesOnly yes
+
+# Rented machines: no agent forwarding, throwaway host keys kept separate
+Host *.vast.ai
+	User root
+	IdentityFile ~/.ssh/mini-vast.pub
+	IdentitiesOnly yes
+	ForwardAgent no
+	StrictHostKeyChecking accept-new
+	UserKnownHostsFile ~/.ssh/known_hosts.vast
+{{- end }}
+
+Host pi
+	HostName 192.168.8.1
+	User root
+{{- if .dcsUser }}
+
+Host dcs
+	HostName remote-13.dcs.warwick.ac.uk
+	User {{ .dcsUser }}
+	LocalForward 5999 /tmp/dcs-tmp.{{ .dcsUser }}/.vnc-socket
+{{- end }}
+{{- if .scrtpUser }}
+
+Host scrtp
+	HostName godzilla.csc.warwick.ac.uk
+	User {{ .scrtpUser }}
+
+Host hpc
+	HostName blythe.scrtp.warwick.ac.uk
+	User {{ .scrtpUser }}
+
+Host hpcdata
+	HostName blythedata.scrtp.warwick.ac.uk
+	User {{ .scrtpUser }}
+{{- end }}

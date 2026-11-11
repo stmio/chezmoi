@@ -1,0 +1,7 @@
+#!/bin/bash
+# iTerm2 saves its settings straight into this repo's iterm2/ folder. Takes
+# effect the next time iTerm2 starts.
+set -euo pipefail
+
+defaults write com.googlecode.iterm2 PrefsCustomFolder -string "{{ .chezmoi.workingTree }}/iterm2"
+defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true

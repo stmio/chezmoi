@@ -1,0 +1,10 @@
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# uv
+export PATH="$HOME/.local/bin:$PATH"
+{{- if eq .machine "mini" }}
+
+# SSH keys from the 1Password Homelab vault, see homelab-ssh-agent
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+ssh-add -l >/dev/null 2>&1 || "$HOME/.local/bin/homelab-ssh-agent"
+{{- end }}

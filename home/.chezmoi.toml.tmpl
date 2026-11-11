@@ -1,0 +1,21 @@
+{{- $machine := promptChoiceOnce . "machine" "Which machine is this" (list "laptop" "mini") -}}
+{{- $dcsUser := promptStringOnce . "dcsUser" "Warwick DCS username (blank to skip)" -}}
+{{- $scrtpUser := promptStringOnce . "scrtpUser" "Warwick SCRTP username (blank to skip)" -}}
+
+[data]
+    machine = {{ $machine | quote }}
+    dcsUser = {{ $dcsUser | quote }}
+    scrtpUser = {{ $scrtpUser | quote }}
+
+[add]
+    secrets = "error"
+
+[diff]
+    exclude = ["scripts"]
+
+[edit]
+    apply = true
+
+[merge]
+    command = "nvim"
+    args = ["-d"]

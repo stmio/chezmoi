@@ -1,0 +1,10 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Only git_protocol is managed; gh rewrites the rest of this file itself */ -}}
+{{- $protocol := "https" -}}
+{{- if eq .machine "mini" }}{{ $protocol = "ssh" }}{{ end -}}
+{{- if .chezmoi.stdin | trim -}}
+{{-   .chezmoi.stdin | replaceAllRegex "(?m)^git_protocol:.*$" (printf "git_protocol: %s" $protocol) -}}
+{{- else -}}
+version: 1
+git_protocol: {{ $protocol }}
+{{ end -}}

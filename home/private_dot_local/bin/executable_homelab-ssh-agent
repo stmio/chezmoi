@@ -1,0 +1,43 @@
+#!/bin/bash
+# Load the mini's SSH keys from the 1Password Homelab vault (via a service
+# account) into the agent at $SSH_AUTH_SOCK. Private keys never touch disk;
+# public keys go to ~/.ssh/<item>.pub. Run from ~/.zshenv when the agent is empty.
+set -uo pipefail
+
+sock="${SSH_AUTH_SOCK:-$HOME/.ssh/agent.sock}"
+token_file="$HOME/.config/op/homelab-service-account-token"
+vault="Homelab"
+items=(mini-github mini-vast)
+
+# Stay quiet in non-interactive shells
+warn() { if [[ -t 2 ]]; then echo "homelab-ssh-agent: $*" >&2; fi; }
+
+export SSH_AUTH_SOCK="$sock"
+
+# ssh-add -l: 0 = keys loaded, 1 = agent running but empty, 2 = no agent
+status=0
+ssh-add -l >/dev/null 2>&1 || status=$?
+if [[ $status -eq 0 ]]; then
+  exit 0
+elif [[ $status -eq 2 ]]; then
+  rm -f "$sock"
+  if ! ssh-agent -a "$sock" >/dev/null; then
+    warn "could not start ssh-agent at $sock"
+    exit 1
+  fi
+fi
+
+if [[ ! -r $token_file ]]; then
+  warn "no service account token at $token_file, keys not loaded"
+  exit 0
+fi
+OP_SERVICE_ACCOUNT_TOKEN="$(<"$token_file")"
+export OP_SERVICE_ACCOUNT_TOKEN
+
+for item in "${items[@]}"; do
+  if op read "op://$vault/$item/private key?ssh-format=openssh" | ssh-add -q -; then
+    op read "op://$vault/$item/public key" >"$HOME/.ssh/$item.pub"
+  else
+    warn "could not load op://$vault/$item"
+  fi
+done

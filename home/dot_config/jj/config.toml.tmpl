@@ -1,0 +1,27 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "{{ .identity.name }}"
+email = "{{ .identity.email }}"
+
+[signing]
+behavior = "drop"
+backend = "ssh"
+{{- if eq .machine "mini" }}
+key = "{{ .chezmoi.homeDir }}/.ssh/mini-github.pub"
+{{- else }}
+key = "{{ .identity.signingKey }}"
+backends.ssh.program = "{{ .identity.opSshSign }}"
+{{- end }}
+
+[git]
+sign-on-push = true
+
+[ui]
+default-command = "log"
+editor = "nvim"
+
+[aliases]
+lg = ["log", "-r", "all()"]
+init = ["git", "init"]
+
