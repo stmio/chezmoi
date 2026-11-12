@@ -9,7 +9,7 @@ if [ ! -x "$HOME/.cargo/bin/rustup" ]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 fi
 . "$HOME/.cargo/env"
-rustup component add rust-src
+rustup component add rust-src rust-analyzer
 rustup target add wasm32-unknown-unknown
 for crate in bat cargo-machete cargo-workspaces tokei tree-sitter-cli wasm-bindgen-cli; do
   cargo install --list | grep -q "^$crate " || cargo install --locked "$crate"

@@ -2,13 +2,12 @@
 
 # CLI and dev toolchains
 brew "bash"
-brew "binaryen"
 brew "chezmoi"
 brew "clang-format"
 brew "cmake"
 brew "cmake-docs"
 brew "coreutils"
-brew "emscripten"
+brew "curl"
 brew "fastfetch"
 brew "ffmpeg"
 brew "fontforge"
@@ -21,7 +20,6 @@ brew "gnu-sed"
 brew "go"
 brew "google-java-format"
 brew "groff"
-brew "helix"
 brew "hugo"
 brew "imagemagick"
 brew "javacc"
@@ -84,9 +82,6 @@ cask "gemini"
 cask "github"
 cask "google-chrome"
 cask "iterm2"
-cask "microsoft-auto-update"
-cask "microsoft-teams"
-cask "mimestream"
 cask "signal"
 cask "tailscale-app"
 cask "zotero"
@@ -97,13 +92,10 @@ uv "vastai"
 mas "Bear", id: 1091189122
 mas "Developer", id: 640199958
 mas "Flighty", id: 1358823008
-mas "GarageBand", id: 682658836
 mas "Goodnotes", id: 1444383602
-mas "iMovie", id: 408981434
 mas "Keynote Creator Studio", id: 361285480
 mas "Numbers Creator Studio", id: 361304891
 mas "Pages Creator Studio", id: 361309726
-mas "Photomator", id: 1444636541
 mas "Pixelmator Pro Creator Studio", id: 6746662575
 mas "TestFlight", id: 899247664
 mas "Things3", id: 904280696

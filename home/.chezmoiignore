@@ -1,4 +1,11 @@
 {{ if ne .machine "mini" -}}
 .local/bin/homelab-ssh-agent
 .config/jj/homelab.toml
+.config/op/homelab-service-account-token
+{{- end }}
+
+{{ if not (lookPath "op") -}}
+# Read from 1Password, whose CLI the first apply installs
+Library/Fonts/BerkeleyMono*
+.config/op/homelab-service-account-token
 {{- end }}

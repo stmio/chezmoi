@@ -1,56 +1,46 @@
 # chezmoi
 
-Dotfiles for two Macs, managed with [chezmoi](https://chezmoi.io): `laptop` (MacBook) and
-`mini` (Mac mini homelab, sometimes a desktop). Dotfiles are in `home/`; iTerm2 keeps its
-settings in `iterm2/`.
+My dotfiles for two Macs: my MacBook (`laptop`) and a Mac mini that's mostly a homelab and
+sometimes a desktop (`mini`). Everything that ends up in your home folder lives in `home/`,
+and iTerm2 reads and saves its settings straight from `iterm2/`.
 
-## Set up a Mac
+## Setting up a new Mac
 
 1. Sign in to the App Store.
-2. Run this and pick `laptop` or `mini`. It installs Homebrew, the Brewfile, toolchains
-   and the dotfiles.
+2. Run this and choose `laptop` or `mini` when it asks. It installs Homebrew, all the apps
+   and tools, and the dotfiles, so give it a while.
    ```sh
    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$TMPDIR" init --apply --use-builtin-git=true stmio/chezmoi
    ```
-3. Restart iTerm2.
+3. Open 1Password, sign in, and turn on **Settings → Developer → Integrate with 1Password
+   CLI**. Run `chezmoi apply` again to install Berkeley Mono, which lives in 1Password
+   rather than here.
+4. Restart iTerm2.
 
-Aseprite, Kaeru and Tulip have no Homebrew casks, so install them by hand if needed.
+## Extra steps for the Mac mini
 
-## Mac mini extras
+At the desk, the mini uses 1Password just like the laptop. Claude and remote logins can't
+click 1Password's prompts, so they get their own SSH keys from a `Homelab` vault instead.
 
-At the desk the mini uses 1Password like the laptop. Claude Code and remote logins can't
-approve 1Password prompts, so they use keys from a `Homelab` vault instead (a tmux session
-keeps whichever it started with).
+1. In 1Password, make a `Homelab` vault with two SSH keys, `mini-github` and `mini-vast`.
+   Create a read-only service account for it, save its token in your Personal vault as
+   `Homelab service account`, and turn on the SSH agent in Settings → Developer.
+2. Run `chezmoi apply` to fetch the token, then check `ssh-add -l` over SSH shows both keys.
+3. Run `gh auth login` and `gh ssh-key add ~/.ssh/mini-github.pub --type signing`, and add
+   `~/.ssh/mini-vast.pub` to your vast.ai account.
+4. Sign in to Tailscale and turn off key expiry for the mini in the admin console.
+5. Turn on Remote Login and Screen Sharing (System Settings → General → Sharing), and stop
+   it sleeping with `sudo pmset -a sleep 0 autorestart 1`.
 
-1. In 1Password, turn on the SSH agent (Settings → Developer). Create a `Homelab` vault
-   with SSH keys `mini-github` and `mini-vast`, and a `Berkeley Mono` document holding
-   `zip -j BerkeleyMono.zip ~/Library/Fonts/BerkeleyMono*.otf` from the laptop. Then
-   create a read-only service account for that vault.
-2. Save the service account token from the clipboard:
-   ```sh
-   mkdir -p ~/.config/op && (umask 077; pbpaste > ~/.config/op/homelab-service-account-token)
-   ```
-3. Run `chezmoi apply` to install Berkeley Mono, and check `ssh-add -l` over SSH lists both keys.
-4. Run `gh auth login` and `gh ssh-key add ~/.ssh/mini-github.pub --type signing`. If
-   `git push` fails over SSH, log in again with `--insecure-storage`. Add
-   `~/.ssh/mini-vast.pub` to vast.ai.
-5. Log in to Tailscale and turn off the mini's key expiry in the
-   [admin console](https://login.tailscale.com/admin/machines).
-6. Turn on Remote Login and Screen Sharing (System Settings → General → Sharing), then
-   run `sudo pmset -a sleep 0 autorestart 1`.
-
-Claude asks before committing, pushing or using ssh; approve from the Claude app. After a
-reboot, unlock the mini at its screen, and lock it rather than logging out.
+Claude asks before it commits, pushes or uses ssh, so approve those from the Claude app.
+After a reboot, unlock the mini at its screen, and lock it rather than logging out so
+Tailscale and Claude keep running.
 
 ## Day to day
 
-| To | Run |
-|---|---|
-| Edit a dotfile (applies on save) | `chezmoi edit ~/.zshrc` |
-| Pull and apply | `chezmoi update` |
-| See local changes | `chezmoi diff` |
-| Keep an app's change | `chezmoi re-add <file>` (not templates) or `chezmoi merge <file>` |
-| Add a package | `chezmoi edit ~/.Brewfile` |
-| Change macOS settings | edit `home/.chezmoiscripts/run_onchange_after_50-macos-settings.sh` |
-| Update oh-my-zsh and powerlevel10k | `chezmoi apply -R` |
-| Regenerate config after editing `.chezmoi.toml.tmpl` | `chezmoi init` |
+- `chezmoi edit ~/.zshrc` edits a dotfile and applies it when you save.
+- `chezmoi update` pulls the latest changes and applies them.
+- `chezmoi diff` shows anything that's drifted, and `chezmoi re-add <file>` keeps a change
+  an app made.
+- `chezmoi edit ~/.Brewfile` adds or removes apps.
+- macOS settings are in `home/.chezmoiscripts/run_onchange_after_50-macos-settings.sh`.
