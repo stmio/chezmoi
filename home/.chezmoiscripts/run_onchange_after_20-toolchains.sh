@@ -10,8 +10,7 @@ if [ ! -x "$HOME/.cargo/bin/rustup" ]; then
 fi
 . "$HOME/.cargo/env"
 rustup component add rust-src rust-analyzer
-rustup target add wasm32-unknown-unknown
-for crate in bat cargo-machete cargo-workspaces tokei tree-sitter-cli wasm-bindgen-cli; do
+for crate in bat cargo-machete cargo-workspaces tokei tree-sitter-cli; do
   cargo install --list | grep -q "^$crate " || cargo install --locked "$crate"
 done
 
