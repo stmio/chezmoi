@@ -140,5 +140,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # jj dynamic command completion
 (( $+commands[jj] )) && source <(COMPLETE=zsh jj)
-export JJ_CONFIG=~/.config/jj/config.toml
 

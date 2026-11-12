@@ -5,8 +5,9 @@ iTerm2's settings, which it reads and writes directly. Two machines, picked on f
 `chezmoi init`:
 
 - `laptop`: MacBook. SSH keys and commit signing via the 1Password app.
-- `mini`: Mac mini, mostly a headless homelab for Claude, sometimes a desktop.
-  SSH keys come from a 1Password service account so they work unattended.
+- `mini`: Mac mini, mostly a headless homelab for Claude, sometimes a desktop. At the
+  desk it uses 1Password like the laptop; Claude Code sessions and remote logins use
+  separate keys from a 1Password service account, so they work unattended.
 
 ## New machine
 
@@ -26,31 +27,34 @@ installs it from the `Berkeley Mono` document in the Homelab vault whenever it's
 
 ## Mac mini
 
-### SSH keys from 1Password
+### SSH keys
 
-The mini doesn't use the 1Password app's SSH agent, which needs the app unlocked and
-approves requests on the mini's own screen. Instead, `~/.local/bin/homelab-ssh-agent`
-loads keys from a dedicated vault into a plain `ssh-agent`. It runs from `~/.zshenv`
-whenever that agent is empty, e.g. the first shell after a reboot.
+At the desk, the mini uses the 1Password app's SSH agent and signing key, like the laptop.
+Claude Code sessions and remote logins can't, since 1Password asks for approval on the
+mini's own screen. They get keys from a dedicated vault instead: `~/.zshenv` switches them
+to an agent that `~/.local/bin/homelab-ssh-agent` fills, and points git and jj signing at
+the mini key. A tmux session keeps whichever setup it started with.
 
-1. In 1Password, create a vault named `Homelab` with two SSH Key items,
+1. In 1Password on the mini, turn on the SSH agent (Settings → Developer).
+2. In 1Password, create a vault named `Homelab` with two SSH Key items,
    `mini-github` and `mini-vast`, and a `Berkeley Mono` document holding a zip of the
    font files (from the laptop: `zip -j BerkeleyMono.zip ~/Library/Fonts/BerkeleyMono*.otf`).
-2. Create a service account with read-only access to `Homelab` (Developer → Service
+3. Create a service account with read-only access to `Homelab` (Developer → Service
    Accounts). Its vault access can't be changed later, so create the vault first.
-3. On the mini, save the token (copied to the clipboard):
+4. On the mini, save the token (copied to the clipboard):
    ```sh
    mkdir -p ~/.config/op
    (umask 077; pbpaste > ~/.config/op/homelab-service-account-token)
    ```
-4. Open a new shell and check `ssh-add -l` lists both keys. Run `chezmoi apply` to
-   install Berkeley Mono.
-5. GitHub: run `gh auth login` (choose SSH, don't upload a key), then
+5. Over SSH, check `ssh-add -l` lists both keys. Run `chezmoi apply` to install
+   Berkeley Mono.
+6. GitHub: run `gh auth login`, then add the mini's signing key:
    ```sh
-   gh ssh-key add ~/.ssh/mini-github.pub --type authentication --title "Mac mini"
    gh ssh-key add ~/.ssh/mini-github.pub --type signing --title "Mac mini"
    ```
-6. vast.ai: add `~/.ssh/mini-vast.pub` under Account → SSH Keys.
+   Check `git push` works over SSH too. gh keeps its login in the keychain, which can be
+   locked in SSH sessions; `gh auth login --insecure-storage` keeps it in a file instead.
+7. vast.ai: add `~/.ssh/mini-vast.pub` under Account → SSH Keys.
 
 Claude Code on the mini asks before `git commit`, `git push`, `jj git push`, `ssh`, `scp`
 and `rsync` (see `home/dot_claude/modify_settings.json`). Approve them from the Claude app

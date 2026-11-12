@@ -3,11 +3,7 @@
 [user]
 	name = {{ .identity.name }}
 	email = {{ .identity.email }}
-{{- if eq .machine "mini" }}
-	signingkey = {{ .chezmoi.homeDir }}/.ssh/mini-github.pub
-{{- else }}
 	signingkey = {{ .identity.signingKey }}
-{{- end }}
 [init]
 	defaultBranch = main
 [color]
@@ -20,10 +16,8 @@
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [gpg]
 	format = ssh
-{{- if eq .machine "laptop" }}
 [gpg "ssh"]
 	program = "{{ .identity.opSshSign }}"
-{{- end }}
 [commit]
 	gpgsign = true
 [filter "lfs"]

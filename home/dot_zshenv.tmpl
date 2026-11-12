@@ -2,9 +2,19 @@
 
 # uv
 export PATH="$HOME/.local/bin:$PATH"
+
+# The 1Password app's SSH agent, via a symlink
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
 {{- if eq .machine "mini" }}
 
-# SSH keys from the 1Password Homelab vault, see homelab-ssh-agent
-export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-ssh-add -l >/dev/null 2>&1 || "$HOME/.local/bin/homelab-ssh-agent"
+# Claude Code sessions and remote logins sign and ssh with the Homelab keys
+# instead, since 1Password would ask for approval on the mini's own screen
+if [[ -n $CLAUDECODE || -n $SSH_CONNECTION ]]; then
+  export SSH_AUTH_SOCK="$HOME/.ssh/homelab-agent.sock"
+  ssh-add -l >/dev/null 2>&1 || "$HOME/.local/bin/homelab-ssh-agent"
+  export GIT_CONFIG_COUNT=2
+  export GIT_CONFIG_KEY_0=user.signingkey GIT_CONFIG_VALUE_0="$HOME/.ssh/mini-github.pub"
+  export GIT_CONFIG_KEY_1=gpg.ssh.program GIT_CONFIG_VALUE_1=ssh-keygen
+  export JJ_CONFIG="$HOME/.config/jj/config.toml:$HOME/.config/jj/homelab.toml"
+fi
 {{- end }}

@@ -1,24 +1,16 @@
-Host *
-{{- if eq .machine "laptop" }}
-	IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-{{- else }}
-	IdentityAgent ~/.ssh/agent.sock
-{{- end }}
-{{- if eq .machine "mini" }}
+# Claude Code sessions and remote logins use the agent ~/.zshenv picked for them
+Match exec "test -n \"$CLAUDECODE$SSH_CONNECTION\""
+	IdentityAgent SSH_AUTH_SOCK
 
-Host github.com
-	IdentityFile ~/.ssh/mini-github.pub
-	IdentitiesOnly yes
+Host *
+	IdentityAgent ~/.ssh/agent.sock
 
 # Rented machines: no agent forwarding, throwaway host keys kept separate
 Host *.vast.ai
 	User root
-	IdentityFile ~/.ssh/mini-vast.pub
-	IdentitiesOnly yes
 	ForwardAgent no
 	StrictHostKeyChecking accept-new
 	UserKnownHostsFile ~/.ssh/known_hosts.vast
-{{- end }}
 
 Host pi
 	HostName 192.168.8.1

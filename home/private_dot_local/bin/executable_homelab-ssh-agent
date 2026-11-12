@@ -1,10 +1,10 @@
 #!/bin/bash
 # Load the mini's SSH keys from the 1Password Homelab vault (via a service
-# account) into the agent at $SSH_AUTH_SOCK. Private keys never touch disk;
-# public keys go to ~/.ssh/<item>.pub. Run from ~/.zshenv when the agent is empty.
+# account) into the agent at ~/.ssh/homelab-agent.sock. Private keys never touch
+# disk; public keys go to ~/.ssh/<item>.pub. Run from ~/.zshenv when it's empty.
 set -uo pipefail
 
-sock="${SSH_AUTH_SOCK:-$HOME/.ssh/agent.sock}"
+sock="$HOME/.ssh/homelab-agent.sock"
 token_file="$HOME/.config/op/homelab-service-account-token"
 vault="Homelab"
 items=(mini-github mini-vast)

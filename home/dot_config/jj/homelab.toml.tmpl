@@ -1,0 +1,4 @@
+# Added on the mini for Claude Code sessions and remote logins (see ~/.zshenv)
+[signing]
+key = "{{ .chezmoi.homeDir }}/.ssh/mini-github.pub"
+backends.ssh.program = "ssh-keygen"

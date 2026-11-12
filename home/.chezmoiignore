@@ -1,7 +1,4 @@
-{{ if ne .machine "laptop" -}}
-.config/1Password
-{{- end }}
-
 {{ if ne .machine "mini" -}}
 .local/bin/homelab-ssh-agent
+.config/jj/homelab.toml
 {{- end }}

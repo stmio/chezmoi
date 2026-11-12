@@ -1,6 +1,9 @@
 #!/bin/bash
 # Berkeley Mono is licensed, so it lives in 1Password (Homelab vault, document
-# "Berkeley Mono") instead of this public repo. Installed only if missing.
+# "Berkeley Mono") instead of this public repo.
+{{- if not (stat (joinPath .chezmoi.homeDir "Library/Fonts/BerkeleyMono-Regular.otf")) }}
+# Not installed, so this changes and re-runs on every apply until it is: {{ now | unixEpoch }}
+{{- end }}
 set -euo pipefail
 
 fonts="$HOME/Library/Fonts"

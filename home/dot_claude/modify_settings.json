@@ -1,7 +1,10 @@
 {{- /* chezmoi:modify-template */ -}}
-{{- /* Only these keys are managed; anything else Claude Code writes is kept */ -}}
+{{- /* Only these keys are managed; anything else Claude Code writes is kept. If they
+       already match, the file is left as is so Claude Code's key order survives. */ -}}
+{{- $current := dict -}}
 {{- $settings := dict -}}
 {{- if .chezmoi.stdin | trim -}}
+{{-   $current = fromJson .chezmoi.stdin -}}
 {{-   $settings = fromJson .chezmoi.stdin -}}
 {{- end -}}
 {{- $settings = setValueAtPath "model" "opus" $settings -}}
@@ -18,4 +21,8 @@
 {{- if eq .machine "mini" -}}
 {{-   $settings = setValueAtPath "permissions.ask" (list "Bash(git commit:*)" "Bash(git push:*)" "Bash(jj git push:*)" "Bash(ssh:*)" "Bash(scp:*)" "Bash(rsync:*)") $settings -}}
 {{- end -}}
-{{ toPrettyJson $settings -}}
+{{- if eq (toJson $current) (toJson $settings) -}}
+{{-   .chezmoi.stdin -}}
+{{- else -}}
+{{    toPrettyJson $settings -}}
+{{- end -}}
