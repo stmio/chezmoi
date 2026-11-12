@@ -5,21 +5,37 @@ Match exec "test -n \"$CLAUDECODE$SSH_CONNECTION\""
 Host *
 	IdentityAgent ~/.ssh/agent.sock
 
-# Rented machines: no agent forwarding, throwaway host keys kept separate
+# Each host below offers only its own key, since the agent holds more keys than
+# servers allow login attempts
+
+# Rented machines: no agent forwarding, throwaway host keys kept separate. The
+# mini's Claude and remote sessions use mini-vast, everywhere else uses vast.
 Host *.vast.ai
 	User root
+	IdentityFile ~/.ssh/vast.pub
+	IdentityFile ~/.ssh/mini-vast.pub
+	IdentitiesOnly yes
 	ForwardAgent no
 	StrictHostKeyChecking accept-new
 	UserKnownHostsFile ~/.ssh/known_hosts.vast
 
+Host mini
+	HostName sams-mac-mini
+	IdentityFile ~/.ssh/mac-mini-ssh.pub
+	IdentitiesOnly yes
+
 Host pi
 	HostName 192.168.8.1
 	User root
+	IdentityFile ~/.ssh/raspberry-pi.pub
+	IdentitiesOnly yes
 {{- if .dcsUser }}
 
 Host dcs
 	HostName remote-13.dcs.warwick.ac.uk
 	User {{ .dcsUser }}
+	IdentityFile ~/.ssh/dcs.pub
+	IdentitiesOnly yes
 	LocalForward 5999 /tmp/dcs-tmp.{{ .dcsUser }}/.vnc-socket
 {{- end }}
 {{- if .scrtpUser }}
@@ -27,12 +43,18 @@ Host dcs
 Host scrtp
 	HostName godzilla.csc.warwick.ac.uk
 	User {{ .scrtpUser }}
+	IdentityFile ~/.ssh/scrtp.pub
+	IdentitiesOnly yes
 
 Host hpc
 	HostName blythe.scrtp.warwick.ac.uk
 	User {{ .scrtpUser }}
+	IdentityFile ~/.ssh/scrtp-hpc.pub
+	IdentitiesOnly yes
 
 Host hpcdata
 	HostName blythedata.scrtp.warwick.ac.uk
 	User {{ .scrtpUser }}
+	IdentityFile ~/.ssh/scrtp-hpc.pub
+	IdentitiesOnly yes
 {{- end }}

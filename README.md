@@ -13,7 +13,7 @@ and iTerm2 reads and saves its settings straight from `iterm2/`.
    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$TMPDIR" init --apply --use-builtin-git=true stmio/chezmoi
    ```
 3. Open 1Password, sign in, and turn on **Settings → Developer → Integrate with 1Password
-   CLI**. Run `chezmoi apply` again to fetch what's kept in 1Password rather than here.
+   CLI**. Then run `chezmoi apply` again in a new terminal window.
 4. Restart iTerm2.
 
 ## Extra steps for the Mac mini

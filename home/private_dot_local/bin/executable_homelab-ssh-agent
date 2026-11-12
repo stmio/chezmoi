@@ -1,7 +1,7 @@
 #!/bin/bash
 # Load the mini's SSH keys from the 1Password Homelab vault (via a service
-# account) into the agent at ~/.ssh/homelab-agent.sock. Private keys never touch
-# disk; public keys go to ~/.ssh/<item>.pub. Run from ~/.zshenv when it's empty.
+# account) into the agent at ~/.ssh/homelab-agent.sock, without the private keys
+# touching disk. Run from ~/.zshenv when the agent is empty.
 set -uo pipefail
 
 sock="$HOME/.ssh/homelab-agent.sock"
@@ -35,9 +35,6 @@ OP_SERVICE_ACCOUNT_TOKEN="$(<"$token_file")"
 export OP_SERVICE_ACCOUNT_TOKEN
 
 for item in "${items[@]}"; do
-  if op read "op://$vault/$item/private key?ssh-format=openssh" | ssh-add -q -; then
-    op read "op://$vault/$item/public key" >"$HOME/.ssh/$item.pub"
-  else
+  op read "op://$vault/$item/private key?ssh-format=openssh" | ssh-add -q - ||
     warn "could not load op://$vault/$item"
-  fi
 done

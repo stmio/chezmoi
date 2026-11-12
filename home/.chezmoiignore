@@ -2,6 +2,7 @@
 .local/bin/homelab-ssh-agent
 .config/jj/homelab.toml
 .config/op/homelab-service-account-token
+.ssh/authorized_keys
 {{- end }}
 
 {{ if not (lookPath "op") -}}
