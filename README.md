@@ -13,23 +13,21 @@ and iTerm2 reads and saves its settings straight from `iterm2/`.
    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$TMPDIR" init --apply --use-builtin-git=true stmio/chezmoi
    ```
 3. Open 1Password, sign in, and turn on **Settings → Developer → Integrate with 1Password
-   CLI**. Run `chezmoi apply` again to install Berkeley Mono, which lives in 1Password
-   rather than here.
+   CLI**. Run `chezmoi apply` again to fetch what's kept in 1Password rather than here:
+   Berkeley Mono, and the mini's service account token.
 4. Restart iTerm2.
 
 ## Extra steps for the Mac mini
 
 At the desk, the mini uses 1Password just like the laptop. Claude and remote logins can't
-click 1Password's prompts, so they get their own SSH keys from a `Homelab` vault instead.
+click 1Password's prompts, so they use the `mini-github` and `mini-vast` SSH keys from the
+`Homelab` vault instead, through a service account whose token is saved in Personal as
+`Homelab service account`.
 
-1. In 1Password, make a `Homelab` vault with two SSH keys, `mini-github` and `mini-vast`.
-   Create a read-only service account for it, save its token in your Personal vault as
-   `Homelab service account`, and turn on the SSH agent in Settings → Developer.
-2. Run `chezmoi apply` to fetch the token, then check `ssh-add -l` over SSH shows both keys.
-3. Run `gh auth login` and `gh ssh-key add ~/.ssh/mini-github.pub --type signing`, and add
-   `~/.ssh/mini-vast.pub` to your vast.ai account.
-4. Sign in to Tailscale and turn off key expiry for the mini in the admin console.
-5. Turn on Remote Login and Screen Sharing (System Settings → General → Sharing), and stop
+1. Turn on the SSH agent in 1Password (Settings → Developer).
+2. Run `gh auth login`.
+3. Sign in to Tailscale and turn off key expiry for the mini in the admin console.
+4. Turn on Remote Login and Screen Sharing (System Settings → General → Sharing), and stop
    it sleeping with `sudo pmset -a sleep 0 autorestart 1`.
 
 Claude asks before it commits, pushes or uses ssh, so approve those from the Claude app.
