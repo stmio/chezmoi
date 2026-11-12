@@ -1,5 +1,5 @@
 #!/bin/bash
-# Re-runs when the Brewfile changes: {{ includeTemplate "dot_Brewfile.tmpl" . | sha256sum }}
+# Re-runs when the Brewfile changes: {{ include "dot_Brewfile" | sha256sum }}
 set -euo pipefail
 
 eval "$(/opt/homebrew/bin/brew shellenv)"

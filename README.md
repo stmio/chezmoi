@@ -25,6 +25,8 @@ iTerm2's settings, which it reads and writes directly. Two machines, picked on f
 Berkeley Mono is licensed, so it's kept in 1Password rather than this repo. `chezmoi apply`
 installs it from the `Berkeley Mono` document in the Homelab vault whenever it's missing.
 
+Aseprite, Kaeru and Tulip (laptop) have no Homebrew casks, so they're installed by hand.
+
 ## Mac mini
 
 ### SSH keys
@@ -80,8 +82,10 @@ match command text, so they aren't a hard security boundary.
 - Claude Code and gh rewrite their own settings. Only the keys in
   `home/dot_claude/modify_settings.json` and gh's `git_protocol` are managed; the rest is left alone.
 - iTerm2 saves straight into `iterm2/`, so its changes show up in `git status`.
-- Packages: edit `home/dot_Brewfile.tmpl`. The next `chezmoi apply` runs `brew bundle`.
+- Packages: `chezmoi edit ~/.Brewfile`. The next `chezmoi apply` runs `brew bundle`.
   `brew bundle cleanup --global` lists anything installed that isn't in it.
+- macOS settings live in `home/.chezmoiscripts/run_onchange_after_50-macos-settings.sh`.
+  Wallpaper, Control Center icons and the Dock's apps are set by hand.
 - `chezmoi apply -R` updates oh-my-zsh and powerlevel10k now instead of weekly.
 - After editing `home/.chezmoi.toml.tmpl`, run `chezmoi init` to regenerate the config.
 - `chezmoi managed` lists what's managed; `chezmoi doctor` checks the setup.

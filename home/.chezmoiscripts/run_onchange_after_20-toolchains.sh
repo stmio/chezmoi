@@ -31,10 +31,9 @@ export NVM_DIR="$HOME/.nvm"
 mkdir -p "$NVM_DIR"
 set +u
 . "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-if ! nvm which default >/dev/null 2>&1; then
-  nvm install --lts
-  nvm alias default 'lts/*'
-fi
+node_major=26
+nvm which "$node_major" >/dev/null 2>&1 || nvm install "$node_major"
+nvm alias default "$node_major" >/dev/null
 # Not `nvm use`: it can leave nvm's node behind Homebrew's on PATH
 PATH="$(dirname "$(nvm which default)"):$PATH"
 set -u
