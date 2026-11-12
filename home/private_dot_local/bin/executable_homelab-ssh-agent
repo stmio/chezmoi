@@ -7,7 +7,7 @@ set -uo pipefail
 sock="$HOME/.ssh/homelab-agent.sock"
 token_file="$HOME/.config/op/homelab-service-account-token"
 vault="Homelab"
-items=(mini-github mini-vast)
+items=(mini-commit-signing mini-vast)
 
 # Stay quiet in non-interactive shells
 warn() { if [[ -t 2 ]]; then echo "homelab-ssh-agent: $*" >&2; fi; }

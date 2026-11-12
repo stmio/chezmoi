@@ -12,7 +12,7 @@ if [[ -n $CLAUDECODE || -n $SSH_CONNECTION ]]; then
   export SSH_AUTH_SOCK="$HOME/.ssh/homelab-agent.sock"
   ssh-add -l >/dev/null 2>&1 || "$HOME/.local/bin/homelab-ssh-agent"
   export GIT_CONFIG_COUNT=2
-  export GIT_CONFIG_KEY_0=user.signingkey GIT_CONFIG_VALUE_0="$HOME/.ssh/mini-github.pub"
+  export GIT_CONFIG_KEY_0=user.signingkey GIT_CONFIG_VALUE_0="$HOME/.ssh/mini-commit-signing.pub"
   export GIT_CONFIG_KEY_1=gpg.ssh.program GIT_CONFIG_VALUE_1=ssh-keygen
   export JJ_CONFIG="$HOME/.config/jj/config.toml:$HOME/.config/jj/homelab.toml"
 fi

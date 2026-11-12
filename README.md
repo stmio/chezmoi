@@ -20,9 +20,9 @@ and iTerm2 reads and saves its settings straight from `iterm2/`.
 ## Extra steps for the Mac mini
 
 At the desk, the mini uses 1Password just like the laptop. Claude and remote logins can't
-click 1Password's prompts, so they use the `mini-github` and `mini-vast` SSH keys from the
-`Homelab` vault instead, through a service account whose token is saved in Personal as
-`Homelab service account`.
+click 1Password's prompts, so they use the `mini-commit-signing` and `mini-vast` SSH keys
+from the `Homelab` vault instead, through a service account whose token is saved in
+Personal as `Homelab service account`.
 
 1. Turn on the SSH agent in 1Password (Settings → Developer).
 2. Run `gh auth login`.
