@@ -13,26 +13,21 @@ and iTerm2 reads and saves its settings straight from `iterm2/`.
    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$TMPDIR" init --apply --use-builtin-git=true stmio/chezmoi
    ```
 3. Open 1Password, sign in, and turn on **Settings → Developer → Integrate with 1Password
-   CLI**. Run `chezmoi apply` again to fetch what's kept in 1Password rather than here:
-   Berkeley Mono, and the mini's service account token.
+   CLI**. Run `chezmoi apply` again to fetch what's kept in 1Password rather than here.
 4. Restart iTerm2.
 
 ## Extra steps for the Mac mini
 
 At the desk, the mini uses 1Password just like the laptop. Claude and remote logins can't
 click 1Password's prompts, so they use the `mini-commit-signing` and `mini-vast` SSH keys
-from the `Homelab` vault instead, through a service account whose token is saved in
-Personal as `Homelab service account`.
+from the `Homelab` vault instead.
 
 1. Turn on the SSH agent in 1Password (Settings → Developer).
-2. Run `gh auth login`.
+2. Sign in to Claude Code by running `claude`, and to GitHub with `gh auth login`.
 3. Sign in to Tailscale and turn off key expiry for the mini in the admin console.
-4. Turn on Remote Login and Screen Sharing (System Settings → General → Sharing), and stop
-   it sleeping with `sudo pmset -a sleep 0 autorestart 1`.
-
-Claude asks before it commits, pushes or uses ssh, so approve those from the Claude app.
-After a reboot, unlock the mini at its screen, and lock it rather than logging out so
-Tailscale and Claude keep running.
+4. In System Settings, turn on Remote Login and Screen Sharing (General → Sharing), and
+   under Energy turn on *Prevent automatic sleeping when the display is off* and *Start up
+   automatically after a power failure*.
 
 ## Day to day
 
@@ -41,4 +36,4 @@ Tailscale and Claude keep running.
 - `chezmoi diff` shows anything that's drifted, and `chezmoi re-add <file>` keeps a change
   an app made.
 - `chezmoi edit ~/.Brewfile` adds or removes apps.
-- macOS settings are in `home/.chezmoiscripts/run_onchange_after_50-macos-settings.sh`.
+- macOS settings and the Dock's apps are set by the scripts in `home/.chezmoiscripts/`.
