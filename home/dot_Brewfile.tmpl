@@ -83,6 +83,7 @@ cask "iterm2"
 cask "microsoft-auto-update"
 cask "microsoft-teams"
 cask "signal"
+cask "tailscale-app"
 cask "zotero"
 
 uv "vastai"
@@ -123,11 +124,4 @@ mas "Logic Pro", id: 634148309
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft Outlook", id: 985367838
 mas "Slack", id: 803453959
-mas "Tailscale", id: 1475387142
-{{- end }}
-{{- if eq .machine "mini" }}
-
-# Mini only
-# Unlike the app, the formula's daemon runs before anyone logs in
-brew "tailscale"
 {{- end }}

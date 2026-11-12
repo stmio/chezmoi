@@ -52,8 +52,9 @@ the mini key. A tmux session keeps whichever setup it started with.
    ```sh
    gh ssh-key add ~/.ssh/mini-github.pub --type signing --title "Mac mini"
    ```
-   Check `git push` works over SSH too. gh keeps its login in the keychain, which can be
-   locked in SSH sessions; `gh auth login --insecure-storage` keeps it in a file instead.
+   Pushes use HTTPS with gh's login. Check `git push` also works when you're logged in
+   remotely: gh keeps its login in the keychain, which can be locked in remote sessions;
+   `gh auth login --insecure-storage` keeps it in a file instead.
 7. vast.ai: add `~/.ssh/mini-vast.pub` under Account → SSH Keys.
 
 Claude Code on the mini asks before `git commit`, `git push`, `jj git push`, `ssh`, `scp`
@@ -63,11 +64,12 @@ match command text, so they aren't a hard security boundary.
 
 ### System settings
 
-- Tailscale: `sudo brew services start tailscale && sudo tailscale up`
+- Tailscale: open the app and log in, then turn off key expiry for the mini in the
+  [admin console](https://login.tailscale.com/admin/machines) so it stays on the tailnet.
 - System Settings → General → Sharing: turn on Remote Login and Screen Sharing.
 - Don't sleep, and restart after a power cut: `sudo pmset -a sleep 0 autorestart 1`
-- If FileVault is on, a reboot waits at the login screen for your password before SSH or
-  Tailscale come up.
+- After a reboot nothing comes up until you enter your password at the FileVault screen.
+  Logging out stops Tailscale and Claude, so lock the screen instead.
 
 ## Day to day
 
