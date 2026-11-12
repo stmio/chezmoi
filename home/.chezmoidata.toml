@@ -1,6 +1,5 @@
 [identity]
 name = "Sam Turner"
 email = "98767222+stmio@users.noreply.github.com"
-# The laptop's signing key, served by the 1Password app
 signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFk5uLJDLRriE6mLAUTIfJZSaTr/UFPT1L8vmSk0tkl3"
 opSshSign = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"

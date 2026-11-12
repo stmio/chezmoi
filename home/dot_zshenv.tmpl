@@ -7,8 +7,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
 {{- if eq .machine "mini" }}
 
-# Claude Code sessions and remote logins sign and ssh with the Homelab keys
-# instead, since 1Password would ask for approval on the mini's own screen
+# Claude Code and remote logins can't approve 1Password prompts: use the Homelab keys
 if [[ -n $CLAUDECODE || -n $SSH_CONNECTION ]]; then
   export SSH_AUTH_SOCK="$HOME/.ssh/homelab-agent.sock"
   ssh-add -l >/dev/null 2>&1 || "$HOME/.local/bin/homelab-ssh-agent"

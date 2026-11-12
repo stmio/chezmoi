@@ -1,6 +1,4 @@
 #!/bin/bash
-# macOS preferences for both Macs. Wallpaper, Control Center icons and the Dock's
-# app list are set by hand.
 set -euo pipefail
 
 defaults write NSGlobalDomain AppleInterfaceStyle -string Dark
@@ -12,7 +10,7 @@ defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
 defaults write com.apple.finder FXDefaultSearchScope -string SCev
 defaults write com.apple.finder NewWindowTarget -string PfHm
 
-# Trackpad, built-in and Magic Trackpad: tap to click, three-finger drag, right click
+# Built-in and Magic Trackpad
 for domain in com.apple.AppleMultitouchTrackpad com.apple.driver.AppleBluetoothMultitouch.trackpad; do
   defaults write "$domain" Clicking -bool true
   defaults write "$domain" TrackpadThreeFingerDrag -bool true
@@ -26,7 +24,6 @@ defaults write com.apple.dock wvous-bl-corner -int 3
 defaults write com.apple.dock wvous-bl-modifier -int 0
 defaults write com.apple.dock wvous-br-corner -int 14
 
-# Menu bar clock: weekday, seconds, AM/PM
 defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
 defaults write com.apple.menuextra.clock ShowSeconds -bool true
 defaults write com.apple.menuextra.clock ShowAMPM -bool true
