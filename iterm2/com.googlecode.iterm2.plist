@@ -400,31 +400,9 @@
 	<false/>
 	<key>HideScrollbar</key>
 	<true/>
+	<key>HotkeyMigratedFromSingleToMulti</key>
+	<true/>
 	<key>JiggleTTYSizeOnClearBuffer</key>
-	<false/>
-	<key>NSAutoFillHeuristicControllerEnabled</key>
-	<false/>
-	<key>NSAutomaticCapitalizationEnabled</key>
-	<false/>
-	<key>NSAutomaticDashSubstitutionEnabled</key>
-	<false/>
-	<key>NSAutomaticPeriodSubstitutionEnabled</key>
-	<false/>
-	<key>NSAutomaticQuoteSubstitutionEnabled</key>
-	<false/>
-	<key>NSAutomaticSpellingCorrectionEnabled</key>
-	<false/>
-	<key>NSEnableWindowTabIndexing</key>
-	<false/>
-	<key>NSOverlayScrollersFallBackForAccessoryViews</key>
-	<false/>
-	<key>NSQuotedKeystrokeBinding</key>
-	<string></string>
-	<key>NSRepeatCountBinding</key>
-	<string></string>
-	<key>NSScrollAnimationEnabled</key>
-	<false/>
-	<key>NSScrollViewShouldScrollUnderTitlebar</key>
 	<false/>
 	<key>New Bookmarks</key>
 	<array>
@@ -2854,14 +2832,8 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
-	<key>PreventEscapeSequenceFromClearingHistory</key>
-	<false/>
 	<key>Print In Black And White</key>
 	<true/>
-	<key>SUEnableAutomaticChecks</key>
-	<true/>
-	<key>SUSendProfileInfo</key>
-	<false/>
 	<key>SeparateStatusBarsPerPane</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
