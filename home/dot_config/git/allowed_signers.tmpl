@@ -1,0 +1,2 @@
+{{ .identity.email }} {{ .identity.signingKey }}
+{{ .identity.email }} {{ include "private_dot_ssh/mini-commit-signing.pub" | trim }}
