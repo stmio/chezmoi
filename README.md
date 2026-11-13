@@ -26,8 +26,8 @@ from the `Homelab` vault instead.
 2. Sign in to Claude Code by running `claude`, and to GitHub with `gh auth login`.
 3. Sign in to Tailscale and turn off key expiry for the mini in the admin console.
 4. In System Settings, turn on Remote Login and Screen Sharing (General → Sharing), and
-   under Energy turn on *Prevent automatic sleeping when the display is off* and *Start up
-   automatically after a power failure*.
+   under Energy turn on *Prevent automatic sleeping when the display is off* and set *Start
+   up when power is connected* to *After power failure*.
 
 ## Day to day
 

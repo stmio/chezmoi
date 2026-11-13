@@ -4,6 +4,9 @@
 # touching disk. Run from ~/.zshenv when the agent is empty.
 set -uo pipefail
 
+# ~/.zshenv runs this before ~/.zprofile puts Homebrew (and op) on PATH
+export PATH="/opt/homebrew/bin:$PATH"
+
 sock="$HOME/.ssh/homelab-agent.sock"
 token_file="$HOME/.config/op/homelab-service-account-token"
 vault="Homelab"
