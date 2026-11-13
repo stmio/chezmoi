@@ -7,7 +7,7 @@
 {{-   $current = fromJson .chezmoi.stdin -}}
 {{-   $settings = fromJson .chezmoi.stdin -}}
 {{- end -}}
-{{- $settings = setValueAtPath "model" "opus" $settings -}}
+{{- $settings = setValueAtPath "model" "opus[1m]" $settings -}}
 {{- $settings = setValueAtPath "effortLevel" "xhigh" $settings -}}
 {{- $settings = setValueAtPath "modelSettings.claude-opus-5-5.effortLevel" "xhigh" $settings -}}
 {{- $settings = setValueAtPath "modelSettings.claude-fable-5-1.effortLevel" "high" $settings -}}
