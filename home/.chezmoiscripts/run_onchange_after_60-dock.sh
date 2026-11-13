@@ -22,6 +22,12 @@ apps=(
   "/System/Applications/iPhone Mirroring.app"
 )
 
+# Keep Spaces in order; hot corners bottom-left app windows, bottom-right Quick Note
+defaults write com.apple.dock mru-spaces -bool false
+defaults write com.apple.dock wvous-bl-corner -int 3
+defaults write com.apple.dock wvous-bl-modifier -int 0
+defaults write com.apple.dock wvous-br-corner -int 14
+
 dockutil --remove all --no-restart
 for app in "${apps[@]}"; do
   if [ -e "$app" ]; then dockutil --add "$app" --no-restart; fi
