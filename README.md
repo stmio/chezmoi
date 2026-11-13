@@ -28,6 +28,8 @@ from the `Homelab` vault instead.
 4. In System Settings, turn on Remote Login and Screen Sharing (General → Sharing), and
    under Energy turn on *Prevent automatic sleeping when the display is off* and set *Start
    up when power is connected* to *After power failure*.
+5. In the Claude app's settings, turn on *Let your phone and claude.ai start sessions here*
+   (pin `~/Developer`) and *Run on startup*.
 
 ## Day to day
 
