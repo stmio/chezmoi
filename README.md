@@ -6,7 +6,7 @@ and iTerm2 reads and saves its settings straight from `iterm2/`.
 
 ## Setting up a new Mac
 
-1. Sign in to the App Store.
+1. Sign in to the App Store, and turn on iCloud Drive's *Desktop & Documents Folders*.
 2. Run this and choose `laptop` or `mini` when it asks. It installs Homebrew, all the apps
    and tools, and the dotfiles, so give it a while.
    ```sh
