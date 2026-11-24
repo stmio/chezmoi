@@ -509,6 +509,16 @@ require('lazy').setup({
     },
   },
 
+  {
+    "ajbucci/ipynb.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "neovim/nvim-lspconfig",
+      "folke/snacks.nvim", -- optional, for inline images
+    },
+    opts = {},
+  },
+
   -- LSP Plugins
   {
     -- Main LSP Configuration
